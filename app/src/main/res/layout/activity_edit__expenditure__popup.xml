@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#90FF9800"
+    card_view:cardCornerRadius="5dp"
     tools:context=".Edit_Expenditure_Popup">
 
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:backgroundTint="#90FF9800"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,11 +56,12 @@
                     android:layout_height="50dp"
                     android:gravity="center"
                     android:text="Date : "/>
-                <EditText
+                <TextView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
                     android:gravity="center"
                     android:id="@+id/edit_expenditure_date"
+                    android:background="@drawable/border_bottom"
                     android:inputType="date"/>
 
             </LinearLayout>
@@ -80,5 +74,3 @@
                 android:id="@+id/edit_save_expenditure"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-</LinearLayout>

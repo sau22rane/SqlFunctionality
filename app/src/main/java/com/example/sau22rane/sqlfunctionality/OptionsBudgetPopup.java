@@ -15,7 +15,7 @@ public class OptionsBudgetPopup extends AppCompatActivity {
 
     Button view_expen,delete_budget;
     FloatingActionButton edit_budget_fab;
-    String username,title,amount,date,remaining;
+    String title,amount,date,remaining;
     TextView option_title, option_amount, option_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,6 @@ public class OptionsBudgetPopup extends AppCompatActivity {
             Bundle b = intent.getExtras();
             if(b!=null) {
                 remaining = b.getString("remaining");
-                username = b.getString("username");
                 title = b.getString("title");
                 amount = b.getString("amount");
                 date = b.getString("date");
@@ -37,7 +36,7 @@ public class OptionsBudgetPopup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*0.8), (int)(height*0.6));
+        getWindow().setLayout((int)(width*0.6), (int)(height*0.3));
         option_title = (TextView) findViewById(R.id.option_budget_title);
         option_amount = (TextView) findViewById(R.id.option_budget_amount);
         option_date = (TextView) findViewById(R.id.option_budget_date);
@@ -54,7 +53,6 @@ public class OptionsBudgetPopup extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), Expenditure_activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("remaining",remaining);
-                bundle.putString("username",username);
                 bundle.putString("title",title);
                 i.putExtras(bundle);
                 startActivity(i);
@@ -68,7 +66,6 @@ public class OptionsBudgetPopup extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), Edit_Budget_Popup.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("remaining",remaining);
-                bundle.putString("username",username);
                 bundle.putString("title",title);
                 bundle.putString("amount",amount);
                 bundle.putString("date",date);
@@ -81,7 +78,7 @@ public class OptionsBudgetPopup extends AppCompatActivity {
         delete_budget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLite a = new SQLite(getApplicationContext(),username,"BUDGET", 1);
+                SQLite a = new SQLite(getApplicationContext(),"DEFAULT","BUDGET", 1);
                 a.delete_row("BUDGET",title);
                 a.delete_table(title);
                 finish();

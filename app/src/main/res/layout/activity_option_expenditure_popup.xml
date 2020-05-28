@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#90FF9800"
+    card_view:cardCornerRadius="5dp"
     tools:context=".OptionExpenditurePopup">
-
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:backgroundTint="#90FF9800"
-        android:layout_width="300dp"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp">
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/option_edit_expenditure_fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#D0D0D0"
+            android:layout_gravity="end|top"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,25 +30,15 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="vertical">
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+            <TextView
+                android:hint="Title"
+                android:id="@+id/option_expenditure_title"
+                android:textSize="20dp"
+                android:gravity="center|bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:hint="Title"
-                    android:id="@+id/option_expenditure_title"
-                    android:textSize="20dp"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp" />
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/option_edit_expenditure_fab"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="#D0D0D0"
-                    android:layout_gravity="end|top"
-                    android:layout_marginRight="16dp"
-                    app:srcCompat="@android:drawable/ic_menu_edit" />
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                android:background="@drawable/border_bottom"
+                android:layout_height="60dp" />
+
 
 
             <LinearLayout
@@ -98,5 +94,3 @@
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-</LinearLayout>

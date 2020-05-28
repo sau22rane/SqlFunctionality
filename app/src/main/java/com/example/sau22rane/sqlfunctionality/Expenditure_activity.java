@@ -20,7 +20,7 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
     RecyclerView Recycle;
     ArrayList<String> Expenditure;
     ArrayList<String> Expenditures_title, Expenditures_date, Expenditures_amount;
-    String username, title, remaining;
+    String title, remaining;
     SQLite a;
     int used_amount;
     TextView remaining_amount;
@@ -34,7 +34,6 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
             Bundle b = intent.getExtras();
             if(b!=null) {
                 remaining = b.getString("remaining");
-                username = b.getString("username");
                 title = b.getString("title");
             }
 
@@ -47,7 +46,6 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
                 Bundle mBundle = new Bundle();
                 mBundle.putString("title",title);
                 mBundle.putString("remaining",remaining);
-                mBundle.putString("username",username);
                 i.putExtras(mBundle);
                 startActivityForResult(i, 3);
             }
@@ -63,8 +61,7 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
         Expenditures_date = new ArrayList<String>();
         customAdapter = new RecyclerViewAdapter(getApplicationContext(), Expenditure);
 
-        a = new SQLite(getApplicationContext(),username,title, 1);
-        a.create_expenditure_table(title);
+        a = new SQLite(getApplicationContext(),"DEFAULT",title, 1);
         getData();
 
     }
@@ -119,7 +116,6 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
         if(!isEmpty) {
             Intent i = new Intent(getApplicationContext(), OptionExpenditurePopup.class);
             Bundle bundle = new Bundle();
-            bundle.putString("username", username);
             bundle.putString("table", title);
             bundle.putString("remaining", remaining);
             bundle.putString("title", Expenditures_title.get(position));

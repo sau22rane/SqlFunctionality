@@ -15,7 +15,7 @@ public class OptionExpenditurePopup extends AppCompatActivity {
 
     Button delete_expen;
     FloatingActionButton edit_expen_fab;
-    String username,title,amount,date,table, remaining;
+    String title,amount,date,table, remaining;
     TextView option_title, option_amount, option_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,6 @@ public class OptionExpenditurePopup extends AppCompatActivity {
         if (null != intent) { //Null Checking
             Bundle b = intent.getExtras();
             if(b!=null) {
-                username = b.getString("username");
                 remaining = b.getString("remaining");
                 table = b.getString("table");
                 title = b.getString("title");
@@ -38,7 +37,7 @@ public class OptionExpenditurePopup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*0.8), (int)(height*0.6));
+        getWindow().setLayout((int)(width*0.6), (int)(height*0.3));
         option_title = (TextView) findViewById(R.id.option_expenditure_title);
         option_amount = (TextView) findViewById(R.id.option_expenditure_amount);
         option_date = (TextView) findViewById(R.id.option_expenditure_date);
@@ -55,7 +54,6 @@ public class OptionExpenditurePopup extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), Edit_Expenditure_Popup.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("username",username);
                 bundle.putString("table",table);
                 bundle.putString("remaining",remaining);
                 bundle.putString("title",title);
@@ -70,7 +68,7 @@ public class OptionExpenditurePopup extends AppCompatActivity {
         delete_expen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLite a = new SQLite(getApplicationContext(),username,"BUDGET", 1);
+                SQLite a = new SQLite(getApplicationContext(),"DEFAULT","BUDGET", 1);
                 a.delete_row(table,title);
                 finish();
             }

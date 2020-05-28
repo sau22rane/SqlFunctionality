@@ -20,29 +20,17 @@ public class Budget_activity extends AppCompatActivity implements RecyclerViewAd
     ArrayList<String> Budgets;
     ArrayList<String> Budgets_name, Budgets_date;
     ArrayList<Integer> Budgets_amount, Budgets_remaining;
-    String username;
     SQLite a;
     RecyclerViewAdapter customAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_activity);
-        Intent intent = getIntent();
-        if (null != intent) { //Null Checking
-            Bundle b = intent.getExtras();
-            if(b!=null) {
-                username = b.getString("username");
-            }
-
-        }
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),AddBudgetPopup.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString("username",username);
-                i.putExtras(mBundle);
                 startActivityForResult(i, 1);
             }
         });
@@ -57,7 +45,7 @@ public class Budget_activity extends AppCompatActivity implements RecyclerViewAd
         Budgets_remaining = new ArrayList<Integer>();
         customAdapter = new RecyclerViewAdapter(getApplicationContext(), Budgets);
 
-        a = new SQLite(getApplicationContext(),username,"Budgets", 1);
+        a = new SQLite(getApplicationContext(),"DEFAULT","Budgets", 1);
         a.create_budget_table();
         getData();
 
@@ -115,7 +103,6 @@ public class Budget_activity extends AppCompatActivity implements RecyclerViewAd
         if(!isEmpty) {
             Intent i = new Intent(getApplicationContext(), OptionsBudgetPopup.class);
             Bundle bundle = new Bundle();
-            bundle.putString("username", username);
             bundle.putString("title", Budgets_name.get(position));
             bundle.putString("remaining", Budgets_remaining.get(position).toString());
             bundle.putString("amount", Budgets_amount.get(position).toString());
