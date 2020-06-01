@@ -49,7 +49,7 @@ public class Edit_Budget_Popup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*0.6), (int)(height*0.3));
+        getWindow().setLayout((int)(width*0.8), (int)(height*0.5));
         edit_title = (EditText) findViewById(R.id.edit_budget_title);
         edit_amount = (EditText) findViewById(R.id.edit_budget_amount);
         edit_date = (TextView) findViewById(R.id.edit_budget_date);

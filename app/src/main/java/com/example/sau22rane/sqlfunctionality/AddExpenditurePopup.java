@@ -49,7 +49,7 @@ public class AddExpenditurePopup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*0.6), (int)(height*0.3));
+        getWindow().setLayout((int)(width*0.8), (int)(height*0.5));
         Expen_title = (EditText) findViewById(R.id.expenditure_title);
         amount = (EditText) findViewById(R.id.expenditure_amount);
         date = (TextView) findViewById(R.id.expenditure_date);
@@ -75,7 +75,7 @@ public class AddExpenditurePopup extends AppCompatActivity {
                     SQLite a = new SQLite(getApplicationContext(), "DEFAULT", "Budgets", 1);
                     a.create_expenditure_table(title);
                     if (Integer.parseInt(remaining) < Integer.parseInt(amount.getText().toString()))
-                        Toast.makeText(getApplicationContext(), "Amount surpasses the remaining Budget ", Toast.LENGTH_LONG).show();
+                        amount.setError("Amount surpasses the remaining Budget!");
                     else {
                         boolean result = a.add_expenditure(title, Expen_title.getText().toString(), Integer.parseInt(amount.getText().toString()), date.getText().toString());
                         if (result) {

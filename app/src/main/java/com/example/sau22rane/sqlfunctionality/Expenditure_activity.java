@@ -1,20 +1,26 @@
 package com.example.sau22rane.sqlfunctionality;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class Expenditure_activity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClicked {
+public class Expenditure_activity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClicked, RecyclerViewAdapter.OnDeleteClicked, RecyclerViewAdapter.OnEditClicked{
 
     boolean isEmpty = false;
     RecyclerView Recycle;
@@ -22,6 +28,7 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
     ArrayList<String> Expenditures_title, Expenditures_date, Expenditures_amount;
     String title, remaining;
     SQLite a;
+    int previous = -1;
     int used_amount;
     TextView remaining_amount;
     RecyclerViewAdapter customAdapter;
@@ -48,6 +55,7 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
                 mBundle.putString("remaining",remaining);
                 i.putExtras(mBundle);
                 startActivityForResult(i, 3);
+                previous = -1;
             }
         });
         remaining_amount = (TextView) findViewById(R.id.remaining_amount);
@@ -94,8 +102,8 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
             while(res.moveToNext()){
                 StringBuffer buffer = new StringBuffer();
                 buffer.append("Title : "+res.getString(1));
-                buffer.append("\nAmount : "+res.getString(2));
-                buffer.append("\nDate : "+res.getString(3));
+                buffer.append(",Amount : "+res.getString(2));
+                buffer.append(",Date : "+res.getString(3));
                 Expenditure.add(String.valueOf(buffer));
                 Expenditures_title.add(res.getString(1));
                 Expenditures_amount.add(res.getString(2));
@@ -104,6 +112,8 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
             }
         }
         customAdapter.setOnClick((RecyclerViewAdapter.OnItemClicked) Expenditure_activity.this);
+        customAdapter.setOnDelete((RecyclerViewAdapter.OnDeleteClicked) Expenditure_activity.this);
+        customAdapter.setOnEdit((RecyclerViewAdapter.OnEditClicked) Expenditure_activity.this);
         Recycle.setAdapter(customAdapter);
         int total_amt = a.get_amount(title);
         a.update_remaining("BUDGET",title,total_amt-used_amount);
@@ -111,18 +121,78 @@ public class Expenditure_activity extends AppCompatActivity implements RecyclerV
         remaining_amount.setText("Remaining amount: "+remaining);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onItemClick(int position) {
         if(!isEmpty) {
-            Intent i = new Intent(getApplicationContext(), OptionExpenditurePopup.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("table", title);
-            bundle.putString("remaining", remaining);
-            bundle.putString("title", Expenditures_title.get(position));
-            bundle.putString("amount", Expenditures_amount.get(position));
-            bundle.putString("date", Expenditures_date.get(position));
-            i.putExtras(bundle);
-            startActivityForResult(i, 3);
+            if(previous == -1) {
+                previous = position;
+                FloatingActionButton edit;
+                CoordinatorLayout coolo;
+                Button view;
+                view = (Button) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.view);
+                view.setVisibility(View.GONE);
+                coolo = (CoordinatorLayout) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.expandable);
+                edit = (FloatingActionButton) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.edit);
+                if (edit.getVisibility() == View.GONE) {
+                    edit.setVisibility(View.VISIBLE);
+                } else {
+                    edit.setVisibility(View.GONE);
+                }
+                TransitionManager.beginDelayedTransition(coolo, new AutoTransition());
+                if (coolo.getVisibility() == View.GONE)
+                    coolo.setVisibility(View.VISIBLE);
+                else
+                    coolo.setVisibility(View.GONE);
+            }
+            else if(previous != position){
+                FloatingActionButton edit;
+                CoordinatorLayout coolo;
+                FloatingActionButton editp;
+                CoordinatorLayout coolop;
+                Button view;
+                view = (Button) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.view);
+                view.setVisibility(View.GONE);
+                coolop = (CoordinatorLayout) Recycle.findViewHolderForAdapterPosition(previous).itemView.findViewById(R.id.expandable);
+                editp = (FloatingActionButton) Recycle.findViewHolderForAdapterPosition(previous).itemView.findViewById(R.id.edit);
+                coolo = (CoordinatorLayout) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.expandable);
+                edit = (FloatingActionButton) Recycle.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.edit);
+                if (edit.getVisibility() == View.GONE) {
+                    edit.setVisibility(View.VISIBLE);
+                }
+                if (editp.getVisibility() == View.VISIBLE) {
+                    editp.setVisibility(View.GONE);
+                }
+                TransitionManager.beginDelayedTransition(coolo, new AutoTransition());
+                if (coolo.getVisibility() == View.GONE)
+                    coolo.setVisibility(View.VISIBLE);
+                if(coolop.getVisibility() == View.VISIBLE)
+                    coolop.setVisibility(View.GONE);
+                previous = position;
+            }
         }
+    }
+
+    @Override
+    public void onDelete(int position) {
+        SQLite a = new SQLite(getApplicationContext(),"DEFAULT","BUDGET", 1);
+        a.delete_row(title,Expenditures_title.get(position));
+        getData();
+        previous = -1;
+    }
+
+
+    @Override
+    public void onEdit(int position) {
+        Intent i = new Intent(getApplicationContext(), Edit_Expenditure_Popup.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("table",title);
+        bundle.putString("remaining",remaining);
+        bundle.putString("title",Expenditures_title.get(position));
+        bundle.putString("amount",Expenditures_amount.get(position));
+        bundle.putString("date",Expenditures_date.get(position));
+        i.putExtras(bundle);
+        startActivityForResult(i,3);
+        previous = -1;
     }
 }

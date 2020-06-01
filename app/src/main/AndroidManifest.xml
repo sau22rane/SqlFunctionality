@@ -13,10 +13,6 @@
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".Edit_Expenditure_Popup"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".OptionExpenditurePopup"
-            android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".OptionsBudgetPopup"
-            android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".AddExpenditurePopup"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".Expenditure_activity" />

@@ -39,7 +39,7 @@ public class AddBudgetPopup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*0.6), (int)(height*0.3));
+        getWindow().setLayout((int)(width*0.8), (int)(height*0.5));
         title = (EditText) findViewById(R.id.budget_title);
         amount = (EditText) findViewById(R.id.budget_amount);
         date = (TextView) findViewById(R.id.budget_date);
