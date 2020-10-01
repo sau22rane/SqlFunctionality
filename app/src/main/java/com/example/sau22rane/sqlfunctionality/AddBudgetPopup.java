@@ -78,7 +78,7 @@ public class AddBudgetPopup extends AppCompatActivity {
                         amount.setError("Amount required!");
                     }
                     if (TextUtils.isEmpty(title.getText())) {
-                        title.setError("Title required!");
+                        title.setError(" A Tittle is required");
                     }
                 }
                 else {
@@ -87,7 +87,7 @@ public class AddBudgetPopup extends AppCompatActivity {
                     a.create_expenditure_table(title.getText().toString());
                     boolean result = a.add_budget(title.getText().toString(), Integer.parseInt(amount.getText().toString()), date.getText().toString());
                     if (result) {
-                        Toast.makeText(getApplicationContext(), "Data Added successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Successfully added Data", Toast.LENGTH_LONG).show();
                     }
                     finish();
                 }
