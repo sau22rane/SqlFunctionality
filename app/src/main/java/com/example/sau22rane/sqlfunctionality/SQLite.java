@@ -91,7 +91,7 @@ public class SQLite extends SQLiteOpenHelper {
     int get_amount(String title){
         db = this.getWritableDatabase();
         Log.d("TAG","Called");
-        Cursor res = db.rawQuery("SELECT * FROM BUDGET WHERE title like('"+title+"')",null);
+        Cursor res = db.rawQuery("SELECT * FROM BUDGET WHERE title LIKE('"+title+"')",null);
         if(res.getCount()!=0){
             res.moveToNext();
             int amount = Integer.parseInt(res.getString(2));
@@ -103,7 +103,7 @@ public class SQLite extends SQLiteOpenHelper {
     int get_remaining(String title){
         db = this.getWritableDatabase();
         Log.d("TAG","Called");
-        Cursor res = db.rawQuery("SELECT * FROM BUDGET WHERE title like('"+title+"')",null);
+        Cursor res = db.rawQuery("SELECT * FROM BUDGET WHERE title LIKE('"+title+"')",null);
         if(res.getCount()!=0){
             res.moveToNext();
             int remaining = Integer.parseInt(res.getString(3));
